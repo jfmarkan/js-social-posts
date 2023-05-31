@@ -56,9 +56,11 @@ const posts = [
     }
 ];
 
+const likedPosts = [];
+
 const postsListElement = document.getElementById('container');
 
-function createPost(image, name, date, content, media, likes){
+function createPost(id, image, name, date, content, media, likes){
     postsListElement.innerHTML +=
     `<div class="post">
         <div class="post__header">
@@ -79,7 +81,7 @@ function createPost(image, name, date, content, media, likes){
         <div class="post__footer">
             <div class="likes js-likes">
                 <div class="likes__cta">
-                    <a class="like-button  js-like-button" href="#" data-postid="1">
+                    <a class="like-button js-like-button" href="#" data-postid="${id}">
                         <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                         <span class="like-button__label">Mi Piace</span>
                     </a>
@@ -88,11 +90,41 @@ function createPost(image, name, date, content, media, likes){
                     Piace a <b id="like-counter-1" class="js-likes-counter">${likes}</b> persone
                 </div>
             </div> 
-        </div>            
+        </div>
     </div>`
     return createPost;
 };
 
 posts.forEach(post => {
-    createPost(post.author.image, post.author.name, post.created, post.content, post.media, post.likes);
+    createPost(post.id, post.author.image, post.author.name, post.created, post.content, post.media, post.likes);
 });
+
+const btnLikeClick = () =>{
+    
+};
+
+const numberOfLikes = document.querySelectorAll('b.js-likes-counter');
+const likeBtn = document.querySelectorAll("div.likes__cta");
+let likesSum = posts.likes;
+let likedIt = false;
+
+
+likeBtn.forEach(action =>
+    action.addEventListener('click', function(){
+        if (!likedIt) {
+        action.firstElementChild.classList.add('like-button--liked');
+        likesSum++;
+        numberOfLikes.textContent = numberOfLikes;
+        likedIt = !likedIt;
+        likedPosts.push(posts.id)
+    } else {
+        action.firstElementChild.classList.remove('like-button--liked');
+        likesSum--;
+        numberOfLikes.textContent = numberOfLikes;
+        likedIt = !likedIt;
+    }
+    }
+));
+
+
+
